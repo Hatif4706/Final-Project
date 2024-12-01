@@ -169,8 +169,29 @@ void editBarang(string search){
 
 }
 
-void hapus(){
+void hapusBarang(string search){
+    int hitung = 0;
 
+    for (int i = 0; i < maxrow; i++)
+    {
+        if(arID[i] == search){
+            hitung++;
+            arID[i] = "";
+            arBarang[i] = "";
+            arKuantitas[i] = "";
+            arHarga[i] = "";
+            cout << "Data berhasil dihapus" << endl;
+            break;
+        }
+    }
+
+    if(hitung == 0){
+        cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
+    }
+
+    
+    
+    
 }
 
 void saveData(){
@@ -246,6 +267,7 @@ int main(){
             cin.ignore();
             listBarang();
             break;
+
         case 6:
             cin.ignore();
             cout << "=============================================" << endl;
@@ -254,6 +276,22 @@ int main(){
             cout << "Masukkan ID Barang: ";
             getline(cin, id);
             cariBarang(id);
+            break;
+        
+        case 7:
+            cin.ignore();
+            listBarang();
+            cout << "=============================================" << endl;
+            cout << "|             HAPUS DATA BARANG             |" << endl;
+            cout << "=============================================" << endl;
+            cout << "Masukkan ID Barang: ";
+            getline(cin, id);
+            hapusBarang(id);
+            cin.ignore();
+            break;
+        
+        default:
+            cout << "Pilihan tidak ada" << endl;
             break;
         }
         } while (pilih != 8);
