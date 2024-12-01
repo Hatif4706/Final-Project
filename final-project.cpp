@@ -108,7 +108,64 @@ void cariBarang(string cari){
     cout << "|_______________________________________________________|" << endl;
 }
 
-void edit(){
+void editBarang(string search){
+    char id[5];
+    char barang[50];
+    char kuantitas[99];
+    char harga[99];
+
+    int pilihUpdate;
+    int hitung = 0;
+
+
+    for (int i = 0; i < maxrow; i++)
+    {
+        if(arID[i] == search){
+            hitung++;
+            cout << "Apa yang ingin kamu ubah?" << endl;
+            cout << "1. Nama Barang" << endl;
+            cout << "2. Kuantitas" << endl;
+            cout << "3. Harga" << endl;
+            cout << "Masukkan Pilihan: ";
+            cin >> pilihUpdate;
+            cin.ignore();
+
+            switch (pilihUpdate)
+            {
+                case 1:
+                    cout << "Masukkan Nama Barang Baru: "; 
+                    cin.getline(barang, 50);
+                    arBarang[i] = barang;
+                    break;
+            
+                case 2:
+                    cout << "Masukkan Kuantitas Barang Baru: ";
+                    cin.getline(kuantitas, 99);
+                    arKuantitas[i] = kuantitas;
+                    break;
+
+                case 3:
+                    cout << "Masukkan Harga Barang Baru: ";
+                    cin.getline(harga, 99);
+                    arHarga[i] = harga;
+                    break;
+            
+                default:
+                    cout << "Pilihan tidak ada" << endl;
+                    break;
+            }
+
+            cout << "Data berhasil diubah" << endl;
+            break;
+        }
+    }
+    
+    if(hitung == 0){
+        cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
+    }
+
+    cout << "|_______________________________________________________|" << endl;
+    
 
 }
 
@@ -175,7 +232,14 @@ int main(){
             break;
 
         case 4:
-
+            cin.ignore();
+            listBarang();
+            cout << "=============================================" << endl;
+            cout << "|             UPDATE DATA BARANG            |" << endl;
+            cout << "=============================================" << endl;
+            cout << "Masukkan ID Barang: ";
+            getline(cin, id);
+            editBarang(id);
             break;
 
         case 5:
