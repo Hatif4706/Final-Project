@@ -8,11 +8,13 @@ const int maxrow = 100;
 string arID[maxrow] = {};
 string arBarang[maxrow] = {};
 string arKuantitas[maxrow] = {};
+string arHarga[maxrow] = {};
 
 void tambahBarang(){
     char id[5];
     char barang[50];
     char kuantitas[99];
+    char harga[99];
 
     cin.ignore();
     cout << "Masukkan ID Barang: ";
@@ -21,6 +23,8 @@ void tambahBarang(){
     cin.getline(barang, 50);
     cout << "Masukkan Kuantitas Barang: ";
     cin.getline(kuantitas, 99);
+    cout << "Masukkan Harga Barang: ";
+    cin.getline(harga, 99);
     
     for(int i = 0; i < maxrow; i++){
         if (arID[i] == "\0")
@@ -28,6 +32,7 @@ void tambahBarang(){
             arID[i] = id;
             arBarang[i] = barang;
             arKuantitas[i] = kuantitas;
+            arHarga[i] = harga;
             break;
         }
         
@@ -46,17 +51,17 @@ void kurangKuantitas(){
 void listBarang(){
     int hitung = 0;
 
-        cout << " ____________________________________________" << endl;
-        cout << "| NO |          LIST DATA BARANG             |"<< endl;
-        cout << "|    |_______________________________________|" << endl;
-        cout << "|    |     ID    | NAMA BARANG  | KUANTITAS  |" << endl;
-        cout << "|____|___________|______________|____________|" << endl;
+        cout << " ________________________________________________________" << endl;
+        cout << "| NO |                  LIST DATA BARANG                |"<< endl;
+        cout << "|    |__________________________________________________|" << endl;
+        cout << "|    |     ID    | NAMA BARANG  | KUANTITAS  |   HARGA  |" << endl;
+        cout << "|____|___________|______________|____________|__________|" << endl;
 
          for(int i = 0; i < maxrow; i++){
             if (arID[i] != "\0")
             {
                 hitung++;
-                cout << "|  " << hitung << " |" << arID[i] << "          |" << arBarang[i] << "             |" << arKuantitas[i] << "           |" << endl;
+                cout << "|  " << hitung << " |     " << arID[i] << "     |" << arBarang[i] << "             |" << arKuantitas[i] << "           |" << arHarga[i] << "         |"<< endl;
             }
         }
 
@@ -65,6 +70,18 @@ void listBarang(){
             cout << "Data Kosong" << endl;
         }
         
+}
+
+void cariBarang(string cari){
+    int hitung = 0;
+    cout << "             CARI DATA BARANG                " << endl;
+    cout << "=============================================" << endl;
+
+    for(int i = 0; i < maxrow; i++){
+        if (arID[i] == cari){
+            hitung++;
+        }
+    }
 }
 
 void edit(){
@@ -138,10 +155,17 @@ int main(){
             break;
 
         case 5:
+            cin.ignore();
             listBarang();
             break;
+        case 6:
+            cin.ignore();
+            cout << "Masukkan ID Barang: ";
+            getline(cin, id);
+            cariBarang(id);
+            break;
         }
-        } while (pilih != 6);
+        } while (pilih != 8);
 
 
     
