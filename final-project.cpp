@@ -35,7 +35,7 @@ void tambahBarang(){
             arHarga[i] = harga;
             break;
         }
-        
+
     }
 
 }
@@ -62,6 +62,7 @@ void listBarang(){
             {
                 hitung++;
                 cout << "|  " << hitung << " |     " << arID[i] << "     |" << arBarang[i] << "             |" << arKuantitas[i] << "           |" << arHarga[i] << "         |"<< endl;
+                
             }
         }
 
@@ -74,14 +75,26 @@ void listBarang(){
 
 void cariBarang(string cari){
     int hitung = 0;
-    cout << "             CARI DATA BARANG                " << endl;
-    cout << "=============================================" << endl;
+
+    cout << " ________________________________________________________" << endl;
+    cout << "| NO |                  LIST DATA BARANG                |"<< endl;
+    cout << "|    |__________________________________________________|" << endl;
+    cout << "|    |     ID    | NAMA BARANG  | KUANTITAS  |   HARGA  |" << endl;
+    cout << "|____|___________|______________|____________|__________|" << endl;
 
     for(int i = 0; i < maxrow; i++){
         if (arID[i] == cari){
             hitung++;
+            cout << "|  " << hitung << " |     " << arID[i] << "     |" << arBarang[i] << "             |" << arKuantitas[i] << "           |" << arHarga[i] << "         |"<< endl;
+            break;
         }
     }
+
+    if(hitung == 0){
+        cout << "Data Tidak Ditemukan" << endl;
+    }
+
+    cout << "|______________________________________________________|" << endl;
 }
 
 void edit(){
@@ -160,6 +173,9 @@ int main(){
             break;
         case 6:
             cin.ignore();
+            cout << "=============================================" << endl;
+            cout << "|             CARI DATA BARANG              |" << endl;
+            cout << "=============================================" << endl;
             cout << "Masukkan ID Barang: ";
             getline(cin, id);
             cariBarang(id);
