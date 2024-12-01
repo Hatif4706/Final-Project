@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+#include <iomanip>
 using namespace std;
 
 const int maxrow = 100;
@@ -61,15 +62,20 @@ void listBarang(){
             if (arID[i] != "\0")
             {
                 hitung++;
-                cout << "|  " << hitung << " |     " << arID[i] << "     |" << arBarang[i] << "             |" << arKuantitas[i] << "           |" << arHarga[i] << "         |"<< endl;
+                cout << "| " << setw(2) << hitung << " | " << setw(10) << arID[i] 
+                 << " | " << setw(21) << arBarang[i] 
+                 << " | " << setw(9) << arKuantitas[i] 
+                 << " | " << setw(8) << arHarga[i] << " |" << endl;
                 
             }
         }
 
         if (hitung == 0)
         {
-            cout << "Data Kosong" << endl;
+            cout << "|                 TIDAK ADA DATA BARANG                   |" << endl;
         }
+
+        cout << "|________________________________________________________|" << endl;
         
 }
 
@@ -77,7 +83,7 @@ void cariBarang(string cari){
     int hitung = 0;
 
     cout << " ________________________________________________________" << endl;
-    cout << "| NO |                  LIST DATA BARANG                |"<< endl;
+    cout << "| NO |                    DATA BARANG                   |"<< endl;
     cout << "|    |__________________________________________________|" << endl;
     cout << "|    |     ID    | NAMA BARANG  | KUANTITAS  |   HARGA  |" << endl;
     cout << "|____|___________|______________|____________|__________|" << endl;
@@ -85,16 +91,19 @@ void cariBarang(string cari){
     for(int i = 0; i < maxrow; i++){
         if (arID[i] == cari){
             hitung++;
-            cout << "|  " << hitung << " |     " << arID[i] << "     |" << arBarang[i] << "             |" << arKuantitas[i] << "           |" << arHarga[i] << "         |"<< endl;
+            cout << "| " << setw(2) << hitung << " | " << setw(10) << arID[i] 
+                 << " | " << setw(21) << arBarang[i] 
+                 << " | " << setw(9) << arKuantitas[i] 
+                 << " | " << setw(8) << arHarga[i] << " |" << endl;
             break;
         }
     }
 
     if(hitung == 0){
-        cout << "Data Tidak Ditemukan" << endl;
+        cout << "|                 DATA TIDAK DITEMUKAN                   |" << endl;
     }
 
-    cout << "|______________________________________________________|" << endl;
+    cout << "|________________________________________________________|" << endl;
 }
 
 void edit(){
