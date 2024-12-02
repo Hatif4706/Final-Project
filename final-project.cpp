@@ -41,9 +41,38 @@ void tambahBarang(){
 
 }
 
-void tambahKuantitas(){
+void tambahKuantitas(string search) {
+    int hitung = 0;
 
+    for (int i = 0; i < maxrow; i++) {
+        if (arID[i] == search) {
+            hitung++;
+            cout << "Masukkan Kuantitas Barang Masuk: ";
+            string inputKuantitas;
+            getline(cin, inputKuantitas);
+
+           
+            int existingKuantitas = stoi(arKuantitas[i]); 
+            int additionalKuantitas = stoi(inputKuantitas); 
+
+
+            int updatedKuantitas = existingKuantitas + additionalKuantitas;
+
+
+            arKuantitas[i] = to_string(updatedKuantitas);
+
+            cout << "Kuantitas berhasil ditambahkan!" << endl;
+            break;
+        }
+    }
+
+    if (hitung == 0) {
+        cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
+    }
+
+    cout << "|_______________________________________________________|" << endl;
 }
+
 
 void kurangKuantitas(){
 
@@ -246,7 +275,14 @@ int main(){
             tambahBarang();
             break;
         case 2:
-            
+            cin.ignore();
+            listBarang();
+            cout << "=============================================" << endl;
+            cout << "|             TAMBAH DATA BARANG            |" << endl;
+            cout << "=============================================" << endl;
+            cout << "Masukkan ID Barang: ";
+            getline(cin, id);
+            tambahKuantitas(id);
             break;
         case 3:
 
