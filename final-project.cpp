@@ -41,11 +41,11 @@ void tambahBarang(){
 
 }
 
-void tambahKuantitas(string search) {
+void tambahKuantitas(string cari) {
     int hitung = 0;
 
     for (int i = 0; i < maxrow; i++) {
-        if (arID[i] == search) {
+        if (arID[i] == cari) {
             hitung++;
             cout << "Masukkan Kuantitas Barang Masuk: ";
             string inputKuantitas;
@@ -67,10 +67,10 @@ void tambahKuantitas(string search) {
     }
 
     if (hitung == 0) {
-        cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
+        cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
     }
 
-    cout << "|_______________________________________________________|" << endl;
+    cout << "|_____________________________________________________________________|" << endl;
 }
 
 
@@ -81,60 +81,57 @@ void kurangKuantitas(){
 void listBarang(){
     int hitung = 0;
 
-        cout << " ________________________________________________________" << endl;
-        cout << "| NO |                    DATA BARANG                   |" << endl;
-        cout << "|    |__________________________________________________|" << endl;
-        cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |  HARGA |" << endl;
-        cout << "|____|___________|_________________|___________|________|" << endl;
+        cout << " ______________________________________________________________________" << endl;
+        cout << "| NO |                            DATA BARANG                         |" << endl;
+        cout << "|    |________________________________________________________________|" << endl;
+        cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
+        cout << "|____|___________|_________________|___________|______________________|" << endl;
 
-         for(int i = 0; i < maxrow; i++){
-            if (arID[i] != "\0")
-            {
+         for (int i = 0; i < maxrow; i++) {
+            if (arID[i] != "\0") {
                 hitung++;
-                cout << "|" << setw(2) << hitung 
-                 << "  | " << setw(10) << arID[i] 
-                 << "| " << setw(15) << arBarang[i] 
-                 << " | " << setw(9) << arKuantitas[i] 
-                 << " | " << setw(7) << arHarga[i] << "|" << endl;
-                
-            }
+                cout << "| " << setw(2) << hitung << " | "   
+                    << setw(9) << arID[i] << " | "    
+                    << setw(15) << arBarang[i] << " | "  
+                    << setw(9) << arKuantitas[i] << " | "  
+                    << setw(20) << arHarga[i] << " |" << endl; 
         }
+    }
 
-        if (hitung == 0)
-        {
-           cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
-        }
+    if (hitung == 0) {
+        cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
+    }
 
-        cout << "|_______________________________________________________|" << endl;
+    cout << "|_____________________________________________________________________|" << endl;
         
 }
 
 void cariBarang(string cari){
     int hitung = 0;
 
-        cout << " ________________________________________________________" << endl;
-        cout << "| NO |                    DATA BARANG                   |" << endl;
-        cout << "|    |__________________________________________________|" << endl;
-        cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |  HARGA |" << endl;
-        cout << "|____|___________|_________________|___________|________|" << endl;
+        cout << " ______________________________________________________________________" << endl;
+        cout << "| NO |                            DATA BARANG                         |" << endl;
+        cout << "|    |________________________________________________________________|" << endl;
+        cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
+        cout << "|____|___________|_________________|___________|______________________|" << endl;
 
     for(int i = 0; i < maxrow; i++){
         if (arID[i] == cari){
             hitung++;
-            cout << "|" << setw(2) << hitung 
-                 << "  | " << setw(10) << arID[i] 
-                 << "| " << setw(15) << arBarang[i] 
-                 << " | " << setw(9) << arKuantitas[i] 
-                 << " | " << setw(7) << arHarga[i] << "|" << endl;
+            cout << "| " << setw(2) << hitung << " | "   
+                    << setw(9) << arID[i] << " | "    
+                    << setw(15) << arBarang[i] << " | "  
+                    << setw(9) << arKuantitas[i] << " | "  
+                    << setw(20) << arHarga[i] << " |" << endl; 
             break;
         }
     }
 
-    if(hitung == 0){
-        cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
-    }
+        if (hitung == 0) {
+                cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
+        }
 
-    cout << "|_______________________________________________________|" << endl;
+    cout << "|_____________________________________________________________________|" << endl;
 }
 
 void editBarang(string search){
@@ -189,11 +186,11 @@ void editBarang(string search){
         }
     }
     
-    if(hitung == 0){
-        cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
+if (hitung == 0) {
+        cout << "|                 TIDAK ADA DATA BARANG                                |" << endl;
     }
 
-    cout << "|_______________________________________________________|" << endl;
+    cout << "|______________________________________________________________________|" << endl;
     
 
 }
