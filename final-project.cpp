@@ -74,9 +74,35 @@ void tambahKuantitas(string cari) {
 }
 
 
-void kurangKuantitas(){
+void kurangKuantitas(string cari){
+    int hitung = 0;
+    int kurangKuantitas = 0;
 
+    for (int i = 0; i < maxrow; i++) {
+        if (arID[i] == cari) {
+            hitung++;
+            cout << "Masukkan Kuantitas Barang Keluar: ";
+            cin >> kurangKuantitas;
+
+            int kuantitasBarang = stoi(arKuantitas[i]);
+            if (kurangKuantitas > kuantitasBarang) {
+                cout << "Error: Kuantitas keluar melebihi kuantitas tersedia!" << endl;
+            } else {
+                kuantitasBarang -= kurangKuantitas;
+                arKuantitas[i] = to_string(kuantitasBarang); 
+                cout << "Kuantitas berhasil dikurangi." << endl;
+            }
+            break;
+        }
+    }
+
+    if (hitung == 0) {
+        cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
+    }
+
+    cout << "|_____________________________________________________________________|" << endl;
 }
+
 
 void listBarang(){
     int hitung = 0;
@@ -268,64 +294,73 @@ int main(){
 
         switch (pilih)
         {
-        case 1:
-            tambahBarang();
-            break;
-        case 2:
-            cin.ignore();
-            listBarang();
-            cout << "=============================================" << endl;
-            cout << "|             TAMBAH DATA BARANG            |" << endl;
-            cout << "=============================================" << endl;
-            cout << "Masukkan ID Barang: ";
-            getline(cin, id);
-            tambahKuantitas(id);
-            break;
-        case 3:
+            case 1:
+                tambahBarang();
+                break;
+                
+            case 2:
+                cin.ignore();
+                listBarang();
+                cout << "=============================================" << endl;
+                cout << "|             TAMBAH DATA BARANG            |" << endl;
+                cout << "=============================================" << endl;
+                cout << "Masukkan ID Barang: ";
+                getline(cin, id);
+                tambahKuantitas(id);
+                break;
 
-            break;
+            case 3:
+                cin.ignore();
+                listBarang();
+                cout << "=============================================" << endl;
+                cout << "|             KURANG DATA BARANG            |" << endl;
+                cout << "=============================================" << endl;
+                cout << "Masukkan ID Barang: ";
+                getline(cin, id);
+                kurangKuantitas(id);
+                break;
 
-        case 4:
-            cin.ignore();
-            listBarang();
-            cout << "=============================================" << endl;
-            cout << "|             UPDATE DATA BARANG            |" << endl;
-            cout << "=============================================" << endl;
-            cout << "Masukkan ID Barang: ";
-            getline(cin, id);
-            editBarang(id);
-            break;
+            case 4:
+                cin.ignore();
+                listBarang();
+                cout << "=============================================" << endl;
+                cout << "|             UPDATE DATA BARANG            |" << endl;
+                cout << "=============================================" << endl;
+                cout << "Masukkan ID Barang: ";
+                getline(cin, id);
+                editBarang(id);
+                break;
 
-        case 5:
-            cin.ignore();
-            listBarang();
-            break;
+            case 5:
+                cin.ignore();
+                listBarang();
+                break;
 
-        case 6:
-            cin.ignore();
-            cout << "=============================================" << endl;
-            cout << "|             CARI DATA BARANG              |" << endl;
-            cout << "=============================================" << endl;
-            cout << "Masukkan ID Barang: ";
-            getline(cin, id);
-            cariBarang(id);
-            break;
-        
-        case 7:
-            cin.ignore();
-            listBarang();
-            cout << "=============================================" << endl;
-            cout << "|             HAPUS DATA BARANG             |" << endl;
-            cout << "=============================================" << endl;
-            cout << "Masukkan ID Barang: ";
-            getline(cin, id);
-            hapusBarang(id);
-            cin.ignore();
-            break;
-        
-        default:
-            cout << "Pilihan tidak ada" << endl;
-            break;
+            case 6:
+                cin.ignore();
+                cout << "=============================================" << endl;
+                cout << "|             CARI DATA BARANG              |" << endl;
+                cout << "=============================================" << endl;
+                cout << "Masukkan ID Barang: ";
+                getline(cin, id);
+                cariBarang(id);
+                break;
+            
+            case 7:
+                cin.ignore();
+                listBarang();
+                cout << "=============================================" << endl;
+                cout << "|             HAPUS DATA BARANG             |" << endl;
+                cout << "=============================================" << endl;
+                cout << "Masukkan ID Barang: ";
+                getline(cin, id);
+                hapusBarang(id);
+                cin.ignore();
+                break;
+            
+            default:
+                cout << "Pilihan tidak ada" << endl;
+                break;
         }
         } while (pilih != 8);
 
