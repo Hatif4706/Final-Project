@@ -73,7 +73,6 @@ void tambahKuantitas(string cari) {
     cout << "|_____________________________________________________________________|" << endl;
 }
 
-
 void kurangKuantitas(string cari){
     int hitung = 0;
     int kurangKuantitas = 0;
@@ -102,7 +101,6 @@ void kurangKuantitas(string cari){
 
     cout << "|_____________________________________________________________________|" << endl;
 }
-
 
 void listBarang(){
     int hitung = 0;
@@ -246,9 +244,43 @@ void hapusBarang(string search){
     
 }
 
-void saveData(){
-    ofstream myFile;
-    myFile.open("dataBarang.txt");
+void saveData() {
+    ofstream outFile("dataBarang.txt");
+
+    if (!outFile) {
+        cout << "Error: Tidak bisa membuka file untuk menyimpan data karena data kosong!" << endl;
+        return;
+    }
+
+
+    outFile << " _____________________________________________________________________" << endl;
+    outFile << "| NO |                            DATA BARANG                         |" << endl;
+    outFile << "|    |________________________________________________________________|" << endl;
+    outFile << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
+    outFile << "|____|___________|_________________|___________|______________________|" << endl;
+
+    int hitung = 0;
+
+    for (int i = 0; i < maxrow; i++) {
+        if (arID[i] != "\0" && arID[i] != "") {
+            hitung++;
+            outFile << "| " << setw(2) << hitung << " | "   
+                    << setw(9) << arID[i] << " | "    
+                    << setw(15) << arBarang[i] << " | "  
+                    << setw(9) << arKuantitas[i] << " | "  
+                    << setw(20) << arHarga[i] << " |" << endl; 
+        }
+    }
+
+
+    if (hitung == 0) {
+        outFile << "|                 TIDAK ADA DATA BARANG                               |" << endl;
+    }
+
+    outFile << "|_____________________________________________________________________|" << endl;
+
+    outFile.close();
+    cout << "Data berhasil disimpan ke file data_barang.txt!" << endl;
 }
 
 void handleNumber(int number){
@@ -357,14 +389,12 @@ int main(){
                 hapusBarang(id);
                 cin.ignore();
                 break;
-            
-            default:
-                cout << "Pilihan tidak ada" << endl;
-                break;
+
         }
         } while (pilih != 8);
 
+        saveData();
+        cout << "Terimakasih telah menggunakan program ini!" << endl;
+        return 0;
 
-    
-    
 }
