@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <limits>
 #include <iomanip>
 using namespace std;
@@ -11,7 +12,14 @@ string arBarang[maxrow] = {};
 string arKuantitas[maxrow] = {};
 string arHarga[maxrow] = {};
 
-void tambahBarang(){
+
+string trim(const string& str) {
+    size_t first = str.find_first_not_of(' ');
+    size_t last = str.find_last_not_of(' ');
+    return (first == string::npos || last == string::npos) ? "" : str.substr(first, (last - first + 1));
+}
+
+void tambahBarang() {
     char id[5];
     char barang[50];
     char kuantitas[99];
@@ -26,20 +34,18 @@ void tambahBarang(){
     cin.getline(kuantitas, 99);
     cout << "Masukkan Harga Barang: ";
     cin.getline(harga, 99);
-    
-    for(int i = 0; i < maxrow; i++){
-        if (arID[i] == "\0")
-        {
+
+    for (int i = 0; i < maxrow; i++) {
+        if (arID[i].empty()) { // Use .empty() to check for an empty slot
             arID[i] = id;
             arBarang[i] = barang;
             arKuantitas[i] = kuantitas;
             arHarga[i] = harga;
             break;
         }
-
     }
-
 }
+
 
 void tambahKuantitas(string cari) {
     int hitung = 0;
@@ -103,22 +109,23 @@ void kurangKuantitas(string cari){
 }
 
 void listBarang(){
+    cout << " ______________________________________________________________________" << endl;
+    cout << "| NO |                            DATA BARANG                         |" << endl;
+    cout << "|    |________________________________________________________________|" << endl;
+    cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
+    cout << "|____|___________|_________________|___________|______________________|" << endl;
+
     int hitung = 0;
 
-        cout << " ______________________________________________________________________" << endl;
-        cout << "| NO |                            DATA BARANG                         |" << endl;
-        cout << "|    |________________________________________________________________|" << endl;
-        cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
-        cout << "|____|___________|_________________|___________|______________________|" << endl;
-
-         for (int i = 0; i < maxrow; i++) {
-            if (arID[i] != "\0") {
-                hitung++;
-                cout << "| " << setw(2) << hitung << " | "   
-                    << setw(9) << arID[i] << " | "    
-                    << setw(15) << arBarang[i] << " | "  
-                    << setw(9) << arKuantitas[i] << " | "  
-                    << setw(20) << arHarga[i] << " |" << endl; 
+    for (int x = 0; x < maxrow; x++) {
+        if (!arID[x].empty()) {  // Check if ID is not empty
+            hitung++;
+            // Format and print the data in the specified format
+            cout << "| " << setw(3) << hitung << " | "
+                 << setw(10) << arID[x] << " | "
+                 << setw(15) << arBarang[x] << " | "
+                 << setw(9) << arKuantitas[x] << " | "
+                 << setw(20) << arHarga[x] << " |" << endl;
         }
     }
 
@@ -127,8 +134,8 @@ void listBarang(){
     }
 
     cout << "|_____________________________________________________________________|" << endl;
-        
 }
+
 
 void cariBarang(string cari){
     int hitung = 0;
@@ -244,44 +251,60 @@ void hapusBarang(string search){
     
 }
 
-void saveData() {
-    ofstream outFile("dataBarang.txt");
+void SaveData() {
+    ofstream myFile;
+    myFile.open("data.txt");
 
-    if (!outFile) {
-        cout << "Error: Tidak bisa membuka file untuk menyimpan data karena data kosong!" << endl;
-        return;
-    }
-
-
-    outFile << " _____________________________________________________________________" << endl;
-    outFile << "| NO |                            DATA BARANG                         |" << endl;
-    outFile << "|    |________________________________________________________________|" << endl;
-    outFile << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
-    outFile << "|____|___________|_________________|___________|______________________|" << endl;
-
-    int hitung = 0;
-
-    for (int i = 0; i < maxrow; i++) {
-        if (arID[i] != "\0" && arID[i] != "") {
-            hitung++;
-            outFile << "| " << setw(2) << hitung << " | "   
-                    << setw(9) << arID[i] << " | "    
-                    << setw(15) << arBarang[i] << " | "  
-                    << setw(9) << arKuantitas[i] << " | "  
-                    << setw(20) << arHarga[i] << " |" << endl; 
+    // Loop through each item and save its data in the correct format
+    for (int x = 0; x < maxrow; x++) {
+        if (!arID[x].empty()) {
+            // Save the ID, Barang, Kuantitas, and Harga, separated by "|"
+            myFile << arID[x] << " | "
+                   << arBarang[x] << " | "
+                   << arKuantitas[x] << " | "
+                   << arHarga[x] << endl;
         }
     }
 
-
-    if (hitung == 0) {
-        outFile << "|                 TIDAK ADA DATA BARANG                               |" << endl;
-    }
-
-    outFile << "|_____________________________________________________________________|" << endl;
-
-    outFile.close();
-    cout << "Data berhasil disimpan ke file data_barang.txt!" << endl;
+    myFile.close();
 }
+
+void loadData() {
+    string line;
+    ifstream myFile("data.txt");
+    if (myFile.is_open()) {
+        int x = 0;
+        while (getline(myFile, line)) {
+            // Find the position of each delimiter ("|")
+            stringstream ss(line);
+            string id, barang, kuantitas, harga;
+
+            // Parse the line by extracting each field separated by " | "
+            getline(ss, id, '|');
+            getline(ss, barang, '|');
+            getline(ss, kuantitas, '|');
+            getline(ss, harga);
+
+            // Remove any leading/trailing whitespace
+            id = trim(id);
+            barang = trim(barang);
+            kuantitas = trim(kuantitas);
+            harga = trim(harga);
+
+            // Store the parsed data into the arrays
+            arID[x] = id;
+            arBarang[x] = barang;
+            arKuantitas[x] = kuantitas;
+            arHarga[x] = harga;
+            
+            x++;
+        }
+        myFile.close();
+    } else {
+        cout << "Unable to open file" << endl;
+    }
+}
+
 
 void handleNumber(int number){
     while (true)
@@ -297,6 +320,8 @@ void handleNumber(int number){
 int main(){
     string id;
     int pilih;
+
+    loadData();
 
     cout << "=============================================" << endl;
     cout << "             INVENTORY MANAGEMENT            " << endl;
@@ -393,7 +418,7 @@ int main(){
         }
         } while (pilih != 8);
 
-        saveData();
+        SaveData();
         cout << "Terimakasih telah menggunakan program ini!" << endl;
         return 0;
 
