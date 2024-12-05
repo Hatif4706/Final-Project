@@ -1,8 +1,8 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <limits>
-#include <iomanip>
+#include <iostream> //untuk input dan output
+#include <fstream> //untuk file input dan output
+#include <sstream> //untuk stringstream (untuk memisahkan data)
+#include <iomanip> //untuk format output (untuk memisahkan data)
+#include <limits> //untuk limit input (digunakan pada handling error)
 using namespace std;
 
 //Maksimal data
@@ -25,7 +25,6 @@ string trim(const string& str) {
 void handleNumber(int &number) {
     while (true) {
         cin >> number;
-
 
         if (!cin.fail()) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
