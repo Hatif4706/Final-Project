@@ -19,13 +19,30 @@ string trim(const string& str) {
     return (first == string::npos || last == string::npos) ? "" : str.substr(first, (last - first + 1));
 }
 
+void handleNumber(int &number) {
+    while (true) {
+        cin >> number;
+
+
+        if (!cin.fail()) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            break; 
+        }
+
+        cin.clear(); 
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+
+
+        cout << "Pilihan tidak valid! Silakan Masukkan Pilihan yang Benar: ";
+    }
+}
+
 void tambahBarang() {
     char id[5];
     char barang[50];
     char kuantitas[99];
     char harga[99];
 
-    cin.ignore();
     cout << "Masukkan ID Barang: ";
     cin.getline(id, 5);
     cout << "Masukkan Nama Barang: ";
@@ -36,7 +53,7 @@ void tambahBarang() {
     cin.getline(harga, 99);
 
     for (int i = 0; i < maxrow; i++) {
-        if (arID[i].empty()) { // Use .empty() to check for an empty slot
+        if (arID[i].empty()) { 
             arID[i] = id;
             arBarang[i] = barang;
             arKuantitas[i] = kuantitas;
@@ -118,9 +135,8 @@ void listBarang(){
     int hitung = 0;
 
     for (int x = 0; x < maxrow; x++) {
-        if (!arID[x].empty()) {  // Check if ID is not empty
+        if (!arID[x].empty()) {  
             hitung++;
-            // Format and print the data in the specified format
             cout << "| " << setw(2) << hitung << " | "
                  << setw(10) << arID[x] << "| "
                  << setw(15) << arBarang[x] << " | "
@@ -254,17 +270,17 @@ void hapusBarang(string search){
 void SaveData() {
     ofstream myFile("data.txt");
 
-    // Write the header
+
     myFile << "ID  | NAMA BARANG        | KUANTITAS | HARGA" << endl;
     myFile << "----|--------------------|-----------|--------" << endl;
 
-    // Write the data with proper alignment
+  
     for (int x = 0; x < maxrow; x++) {
         if (!arID[x].empty()) {
-            myFile << setw(3) << left << arID[x] << " | "  // ID
-                   << setw(19) << left << arBarang[x] << "| "  // Nama Barang
-                   << setw(10) << right << arKuantitas[x] << "| "  // Kuantitas
-                   << setw(8) << right << arHarga[x] << endl;  // Harga
+            myFile << setw(3) << left << arID[x] << " | " 
+                   << setw(19) << left << arBarang[x] << "| "  
+                   << setw(10) << right << arKuantitas[x] << "| "  
+                   << setw(8) << right << arHarga[x] << endl; 
         }
     }
 
@@ -281,7 +297,7 @@ void loadData() {
     if (myFile.is_open()) {
         int x = 0;
 
-        // Skip the first two lines (header and divider)
+       
         getline(myFile, line);
         getline(myFile, line);
 
@@ -289,13 +305,13 @@ void loadData() {
             stringstream ss(line);
             string id, barang, kuantitas, harga;
 
-            // Parse the line by splitting the columns
+           
             getline(ss, id, '|');
             getline(ss, barang, '|');
             getline(ss, kuantitas, '|');
             getline(ss, harga);
 
-            // Remove extra spaces and store the data
+
             arID[x] = trim(id);
             arBarang[x] = trim(barang);
             arKuantitas[x] = trim(kuantitas);
@@ -309,24 +325,17 @@ void loadData() {
     }
 }
 
-
-
-
-void handleNumber(int number){
-    while (true)
-    {
-        if (cin.fail())
-        {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(),'\n');   
-        }
-    }
-}
-
-int main(){
+struct Variable
+{
+    bool exitProgram = false;
     string id;
     int pilih;
+};
 
+
+int main(){
+    Variable v;
+    
     loadData();
 
     cout << "=============================================" << endl;
@@ -352,80 +361,87 @@ int main(){
         cout << "| 7  |  HAPUS BARANG                         |"<< endl;
         cout << "| 8  |  EXIT & SAVE                          |"<< endl;
         cout << "|____|_______________________________________|" << endl;
-        cout << "| MASUKKAN PILIHAN ANDA: ";
-        cin >> pilih;
+        
+        cout << "MASUKKAN PILIHAN ANDA: "; 
+        handleNumber(v.pilih); 
 
-        switch (pilih)
+        switch (v.pilih)
         {
             case 1:
                 tambahBarang();
                 break;
                 
             case 2:
-                cin.ignore();
                 listBarang();
                 cout << "=============================================" << endl;
-                cout << "|             TAMBAH DATA BARANG            |" << endl;
+                cout << "|             TAMBAH DATA BARANG             |" << endl;
                 cout << "=============================================" << endl;
                 cout << "Masukkan ID Barang: ";
-                getline(cin, id);
-                tambahKuantitas(id);
+                getline(cin, v.id);
+                tambahKuantitas(v.id);
                 break;
 
             case 3:
-                cin.ignore();
                 listBarang();
                 cout << "=============================================" << endl;
                 cout << "|             KURANG DATA BARANG            |" << endl;
                 cout << "=============================================" << endl;
                 cout << "Masukkan ID Barang: ";
-                getline(cin, id);
-                kurangKuantitas(id);
+                getline(cin, v.id);
+                kurangKuantitas(v.id);
                 break;
 
             case 4:
-                cin.ignore();
                 listBarang();
                 cout << "=============================================" << endl;
                 cout << "|             UPDATE DATA BARANG            |" << endl;
                 cout << "=============================================" << endl;
                 cout << "Masukkan ID Barang: ";
-                getline(cin, id);
-                editBarang(id);
+                getline(cin, v.id);
+                editBarang(v.id);
                 break;
 
             case 5:
-                cin.ignore();
                 listBarang();
                 break;
 
             case 6:
-                cin.ignore();
                 cout << "=============================================" << endl;
                 cout << "|             CARI DATA BARANG              |" << endl;
                 cout << "=============================================" << endl;
                 cout << "Masukkan ID Barang: ";
-                getline(cin, id);
-                cariBarang(id);
+                getline(cin, v.id);
+                cariBarang(v.id);
                 break;
             
             case 7:
-                cin.ignore();
                 listBarang();
                 cout << "=============================================" << endl;
                 cout << "|             HAPUS DATA BARANG             |" << endl;
                 cout << "=============================================" << endl;
                 cout << "Masukkan ID Barang: ";
-                getline(cin, id);
-                hapusBarang(id);
+                getline(cin, v.id);
+                hapusBarang(v.id);
                 cin.ignore();
                 break;
 
+            case 8:
+                SaveData();
+                cout << "Data anda telah tersimpan di data kami!" << endl;
+                v.exitProgram = true; 
+                break;
+
+            default:
+                cout << "Pilihan tidak valid! Silakan masukkan pilihan yang benar." << endl;
+                cout << "MASUKKAN PILIHAN ANDA: ";
+                handleNumber(v.pilih);  
+                break;
+
         }
-        } while (pilih != 8);
+        } while (!v.exitProgram);
 
         SaveData();
-        cout << "Terimakasih telah menggunakan program ini!" << endl;
+        cout << "Data anda telah tersimpan di data kami!" << endl;
         return 0;
 
 }
