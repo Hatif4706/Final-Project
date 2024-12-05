@@ -5,20 +5,23 @@
 #include <iomanip>
 using namespace std;
 
+//Maksimal data
 const int maxrow = 100;
 
+//Deklarasi array
 string arID[maxrow] = {};
 string arBarang[maxrow] = {};
 string arKuantitas[maxrow] = {};
 string arHarga[maxrow] = {};
 
-
+//Fungsi trim (untuk menghapus spasi di awal dan akhir string, digunakan saat store data ke .txt)
 string trim(const string& str) {
     size_t first = str.find_first_not_of(' ');
     size_t last = str.find_last_not_of(' ');
     return (first == string::npos || last == string::npos) ? "" : str.substr(first, (last - first + 1));
 }
 
+//Fungsi handling error
 void handleNumber(int &number) {
     while (true) {
         cin >> number;
@@ -37,12 +40,17 @@ void handleNumber(int &number) {
     }
 }
 
+
+//Fungsi untuk menambah data barang
 void tambahBarang() {
+
+    //untuk menampung data
     char id[5];
     char barang[50];
     char kuantitas[99];
     char harga[99];
 
+    //untuk memasukkan data
     cout << "Masukkan ID Barang: ";
     cin.getline(id, 5);
     cout << "Masukkan Nama Barang: ";
@@ -52,6 +60,7 @@ void tambahBarang() {
     cout << "Masukkan Harga Barang: ";
     cin.getline(harga, 99);
 
+    //untuk menyimpan data
     for (int i = 0; i < maxrow; i++) {
         if (arID[i].empty()) { 
             arID[i] = id;
@@ -63,8 +72,9 @@ void tambahBarang() {
     }
 }
 
-
+//Fungsi untuk menambah kuantitas barang
 void tambahKuantitas(string cari) {
+    //untuk menampung data
     int hitung = 0;
 
     for (int i = 0; i < maxrow; i++) {
@@ -74,13 +84,12 @@ void tambahKuantitas(string cari) {
             string inputKuantitas;
             getline(cin, inputKuantitas);
 
-           
+           //untuk memasukkan data
             int existingKuantitas = stoi(arKuantitas[i]); 
             int additionalKuantitas = stoi(inputKuantitas); 
 
-
+            //untuk menyimpan data
             int updatedKuantitas = existingKuantitas + additionalKuantitas;
-
 
             arKuantitas[i] = to_string(updatedKuantitas);
 
@@ -89,6 +98,7 @@ void tambahKuantitas(string cari) {
         }
     }
 
+    //untuk tampilan jika data tidak ada
     if (hitung == 0) {
         cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
     }
@@ -96,7 +106,9 @@ void tambahKuantitas(string cari) {
     cout << "|_____________________________________________________________________|" << endl;
 }
 
+//Fungsi untuk mengurangi kuantitas barang
 void kurangKuantitas(string cari){
+    //untuk menampung data
     int hitung = 0;
     int kurangKuantitas = 0;
 
@@ -107,6 +119,7 @@ void kurangKuantitas(string cari){
             cin >> kurangKuantitas;
 
             int kuantitasBarang = stoi(arKuantitas[i]);
+            //untuk handle jika kurangKuantitas melebihi kuantitasBarang
             if (kurangKuantitas > kuantitasBarang) {
                 cout << "Error: Kuantitas keluar melebihi kuantitas tersedia!" << endl;
             } else {
@@ -118,6 +131,7 @@ void kurangKuantitas(string cari){
         }
     }
 
+    //untuk tampilan jika data tidak ada
     if (hitung == 0) {
         cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
     }
@@ -125,6 +139,7 @@ void kurangKuantitas(string cari){
     cout << "|_____________________________________________________________________|" << endl;
 }
 
+//Fungsi untuk menampilkan data barang
 void listBarang(){
     cout << " ______________________________________________________________________" << endl;
     cout << "| NO |                            DATA BARANG                         |" << endl;
@@ -132,8 +147,9 @@ void listBarang(){
     cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
     cout << "|____|___________|_________________|___________|______________________|" << endl;
 
-    int hitung = 0;
 
+    //untuk menampilkan data
+    int hitung = 0;
     for (int x = 0; x < maxrow; x++) {
         if (!arID[x].empty()) {  
             hitung++;
@@ -145,6 +161,7 @@ void listBarang(){
         }
     }
 
+    //untuk tampilan jika data tidak ada
     if (hitung == 0) {
         cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
     }
@@ -152,8 +169,9 @@ void listBarang(){
     cout << "|_____________________________________________________________________|" << endl;
 }
 
-
+//Fungsi untuk mencari barang
 void cariBarang(string cari){
+    //untuk menampung data
     int hitung = 0;
 
         cout << " ______________________________________________________________________" << endl;
@@ -162,6 +180,7 @@ void cariBarang(string cari){
         cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
         cout << "|____|___________|_________________|___________|______________________|" << endl;
 
+    //untuk mencari data
     for(int i = 0; i < maxrow; i++){
         if (arID[i] == cari){
             hitung++;
@@ -174,6 +193,7 @@ void cariBarang(string cari){
         }
     }
 
+    //untuk tampilan jika data tidak ada
         if (hitung == 0) {
                 cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
         }
@@ -181,7 +201,9 @@ void cariBarang(string cari){
     cout << "|_____________________________________________________________________|" << endl;
 }
 
+//Fungsi untuk mengedit barang
 void editBarang(string search){
+    //untuk menampung data
     char id[5];
     char barang[50];
     char kuantitas[99];
@@ -190,9 +212,10 @@ void editBarang(string search){
     int pilihUpdate;
     int hitung = 0;
 
-
+    //untuk mengedit data
     for (int i = 0; i < maxrow; i++)
-    {
+    {   
+        //untuk memilih data apa yang ingin diubah
         if(arID[i] == search){
             hitung++;
             cout << "Apa yang ingin kamu ubah?" << endl;
@@ -203,6 +226,7 @@ void editBarang(string search){
             cin >> pilihUpdate;
             cin.ignore();
 
+            //untuk mengubah data
             switch (pilihUpdate)
             {
                 case 1:
@@ -233,18 +257,21 @@ void editBarang(string search){
         }
     }
     
-if (hitung == 0) {
-        cout << "|                 TIDAK ADA DATA BARANG                                |" << endl;
-    }
+    //untuk tampilan jika data tidak ada
+    if (hitung == 0) {
+            cout << "|                 TIDAK ADA DATA BARANG                                |" << endl;
+        }
 
-    cout << "|______________________________________________________________________|" << endl;
+        cout << "|______________________________________________________________________|" << endl;
     
 
 }
 
+//Fungsi untuk menghapus barang
 void hapusBarang(string search){
     int hitung = 0;
 
+    //untuk menghapus data
     for (int i = 0; i < maxrow; i++)
     {
         if(arID[i] == search){
@@ -258,6 +285,7 @@ void hapusBarang(string search){
         }
     }
 
+    //untuk tampilan jika data tidak ada
     if(hitung == 0){
         cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
     }
@@ -267,14 +295,14 @@ void hapusBarang(string search){
     
 }
 
+//Fungsi untuk menyimpan data di file
 void SaveData() {
     ofstream myFile("data.txt");
 
 
+    //format untuk menyimpan data
     myFile << "ID  | NAMA BARANG        | KUANTITAS | HARGA" << endl;
     myFile << "----|--------------------|-----------|--------" << endl;
-
-  
     for (int x = 0; x < maxrow; x++) {
         if (!arID[x].empty()) {
             myFile << setw(3) << left << arID[x] << " | " 
@@ -284,47 +312,53 @@ void SaveData() {
         }
     }
 
+    //untuk menutup file
     myFile.close();
 }
 
 
 
-
+//Fungsi untuk memuat data yang ada di file
 void loadData() {
     string line;
     ifstream myFile("data.txt");
 
+    //untuk membaca data
     if (myFile.is_open()) {
-        int x = 0;
+        int i = 0;
 
-       
         getline(myFile, line);
         getline(myFile, line);
 
+        //format untuk membaca data
         while (getline(myFile, line)) {
             stringstream ss(line);
             string id, barang, kuantitas, harga;
 
-           
+            //untuk memisahkan data           
             getline(ss, id, '|');
             getline(ss, barang, '|');
             getline(ss, kuantitas, '|');
             getline(ss, harga);
 
-
-            arID[x] = trim(id);
-            arBarang[x] = trim(barang);
-            arKuantitas[x] = trim(kuantitas);
-            arHarga[x] = trim(harga);
+            //untuk memanggil fungsi trim
+            arID[i] = trim(id);
+            arBarang[i] = trim(barang);
+            arKuantitas[i] = trim(kuantitas);
+            arHarga[i] = trim(harga);
             
-            x++;
+            i++;
         }
+        //untuk menutup file
         myFile.close();
+
+    //jika file tidak ditemukan    
     } else {
-        cout << "Unable to open file" << endl;
+        cout << "File tidak dapat ditemukan" << endl;
     }
 }
 
+//Fungsi untuk membuat struct(kumpulan variable)
 struct Variable
 {
     bool exitProgram = false;
@@ -332,12 +366,15 @@ struct Variable
     int pilih;
 };
 
-
+//Fungsi utama
 int main(){
+    //Deklarasi struct
     Variable v;
     
+    //untuk membaca data dari file storage
     loadData();
 
+    //tampilan
     cout << "=============================================" << endl;
     cout << "             INVENTORY MANAGEMENT            " << endl;
     cout << "=============================================" << endl;
@@ -362,15 +399,19 @@ int main(){
         cout << "| 8  |  EXIT & SAVE                          |"<< endl;
         cout << "|____|_______________________________________|" << endl;
         
+        //untuk memilih menu
         cout << "MASUKKAN PILIHAN ANDA: "; 
         handleNumber(v.pilih); 
 
+
         switch (v.pilih)
         {
+            //untuk menambah barang
             case 1:
                 tambahBarang();
                 break;
                 
+            //untuk menambah kuantitas barang
             case 2:
                 listBarang();
                 cout << "=============================================" << endl;
@@ -381,6 +422,7 @@ int main(){
                 tambahKuantitas(v.id);
                 break;
 
+            //untuk mengurangi kuantitas barang
             case 3:
                 listBarang();
                 cout << "=============================================" << endl;
@@ -391,6 +433,7 @@ int main(){
                 kurangKuantitas(v.id);
                 break;
 
+            //untuk mengedit barang
             case 4:
                 listBarang();
                 cout << "=============================================" << endl;
@@ -401,10 +444,12 @@ int main(){
                 editBarang(v.id);
                 break;
 
+            //untuk menampilkan keseluruhan barang
             case 5:
                 listBarang();
                 break;
 
+            //untuk mencari barang
             case 6:
                 cout << "=============================================" << endl;
                 cout << "|             CARI DATA BARANG              |" << endl;
@@ -414,6 +459,7 @@ int main(){
                 cariBarang(v.id);
                 break;
             
+            //untuk menghapus barang
             case 7:
                 listBarang();
                 cout << "=============================================" << endl;
@@ -425,12 +471,14 @@ int main(){
                 cin.ignore();
                 break;
 
+            //untuk menyimpan barang dan menyelesaikan program
             case 8:
                 SaveData();
                 cout << "Data anda telah tersimpan di data kami!" << endl;
                 v.exitProgram = true; 
                 break;
 
+            //untuk pilihan yang salah
             default:
                 cout << "Pilihan tidak valid! Silakan masukkan pilihan yang benar." << endl;
                 cout << "MASUKKAN PILIHAN ANDA: ";
@@ -440,8 +488,6 @@ int main(){
         }
         } while (!v.exitProgram);
 
-        SaveData();
-        cout << "Data anda telah tersimpan di data kami!" << endl;
         return 0;
 
 }
