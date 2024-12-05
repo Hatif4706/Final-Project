@@ -121,8 +121,8 @@ void listBarang(){
         if (!arID[x].empty()) {  // Check if ID is not empty
             hitung++;
             // Format and print the data in the specified format
-            cout << "| " << setw(3) << hitung << " | "
-                 << setw(10) << arID[x] << " | "
+            cout << "| " << setw(2) << hitung << " | "
+                 << setw(10) << arID[x] << "| "
                  << setw(15) << arBarang[x] << " | "
                  << setw(9) << arKuantitas[x] << " | "
                  << setw(20) << arHarga[x] << " |" << endl;
@@ -252,50 +252,54 @@ void hapusBarang(string search){
 }
 
 void SaveData() {
-    ofstream myFile;
-    myFile.open("data.txt");
+    ofstream myFile("data.txt");
 
-    // Loop through each item and save its data in the correct format
+    // Write the header
+    myFile << "ID  | NAMA BARANG        | KUANTITAS | HARGA" << endl;
+    myFile << "----|--------------------|-----------|--------" << endl;
+
+    // Write the data with proper alignment
     for (int x = 0; x < maxrow; x++) {
         if (!arID[x].empty()) {
-            // Save the ID, Barang, Kuantitas, and Harga, separated by "|"
-            myFile << arID[x] << " | "
-                   << arBarang[x] << " | "
-                   << arKuantitas[x] << " | "
-                   << arHarga[x] << endl;
+            myFile << setw(3) << left << arID[x] << " | "  // ID
+                   << setw(19) << left << arBarang[x] << "| "  // Nama Barang
+                   << setw(10) << right << arKuantitas[x] << "| "  // Kuantitas
+                   << setw(8) << right << arHarga[x] << endl;  // Harga
         }
     }
 
     myFile.close();
 }
 
+
+
+
 void loadData() {
     string line;
     ifstream myFile("data.txt");
+
     if (myFile.is_open()) {
         int x = 0;
+
+        // Skip the first two lines (header and divider)
+        getline(myFile, line);
+        getline(myFile, line);
+
         while (getline(myFile, line)) {
-            // Find the position of each delimiter ("|")
             stringstream ss(line);
             string id, barang, kuantitas, harga;
 
-            // Parse the line by extracting each field separated by " | "
+            // Parse the line by splitting the columns
             getline(ss, id, '|');
             getline(ss, barang, '|');
             getline(ss, kuantitas, '|');
             getline(ss, harga);
 
-            // Remove any leading/trailing whitespace
-            id = trim(id);
-            barang = trim(barang);
-            kuantitas = trim(kuantitas);
-            harga = trim(harga);
-
-            // Store the parsed data into the arrays
-            arID[x] = id;
-            arBarang[x] = barang;
-            arKuantitas[x] = kuantitas;
-            arHarga[x] = harga;
+            // Remove extra spaces and store the data
+            arID[x] = trim(id);
+            arBarang[x] = trim(barang);
+            arKuantitas[x] = trim(kuantitas);
+            arHarga[x] = trim(harga);
             
             x++;
         }
@@ -304,6 +308,8 @@ void loadData() {
         cout << "Unable to open file" << endl;
     }
 }
+
+
 
 
 void handleNumber(int number){
