@@ -232,8 +232,8 @@ void editBarang(string search){
     //untuk menampung data
     char id[5];
     char barang[50];
-    char kuantitas[99];
-    char harga[99];
+    int kuantitas;
+    int harga;
 
     int pilihUpdate;
     int hitung = 0;
@@ -249,7 +249,7 @@ void editBarang(string search){
             cout << "2. Kuantitas" << endl;
             cout << "3. Harga" << endl;
             cout << "Masukkan Pilihan: ";
-            cin >> pilihUpdate;
+            handleNumber(pilihUpdate);
             cin.ignore();
 
             //untuk mengubah data
@@ -263,14 +263,14 @@ void editBarang(string search){
             
                 case 2:
                     cout << "Masukkan Kuantitas Barang Baru: ";
-                    cin >> kuantitas;
-                    arKuantitas[i] = kuantitas;
+                    handleNumber(kuantitas);
+                    arKuantitas[i] = to_string(kuantitas);
                     break;
 
                 case 3:
                     cout << "Masukkan Harga Barang Baru: ";
-                    cin >> harga;
-                    arHarga[i] = harga;
+                    handleNumber(harga);
+                    arHarga[i] = to_string(harga);
                     break;
             
                 default:
