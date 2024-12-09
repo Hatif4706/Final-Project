@@ -40,64 +40,87 @@ void handleNumber(int &number) {
 }
 
 
+// Fungsi untuk mengecek apakah ID sudah ada
+bool cekID(const string& searchID) {
+    for (int i = 0; i < maxrow; i++) {
+        if (arID[i] == searchID) {
+            return true; // ID ditemukan, berarti sudah ada
+        }
+    }
+    return false; // ID tidak ditemukan
+}
+
+
+
 //Fungsi untuk menambah data barang
 void tambahBarang() {
-
-    //untuk menampung data
+    // untuk menampung data
     char id[5];
     char barang[50];
-    char kuantitas[99];
-    char harga[99];
+    int kuantitas;
+    int harga;
 
-    //untuk memasukkan data
-    cout << "Masukkan ID Barang: ";
-    cin.getline(id, 5);
+    // meminta input ID dan memeriksa apakah ID sudah ada
+    bool idValid = false; // variabel untuk mengecek ID yang valid
+    while (!idValid) {
+        cout << "Masukkan ID Barang: ";
+        cin.getline(id, 5);
+
+        // Cek apakah ID sudah ada menggunakan fungsi isIDExist
+        if (cekID(id)) {
+            cout << "ID Barang sudah ada! Silakan masukkan ID yang berbeda." << endl;
+        } else {
+            idValid = true; // Jika ID belum ada, keluar dari perulangan
+        }
+    }
+
     cout << "Masukkan Nama Barang: ";
     cin.getline(barang, 50);
-    cout << "Masukkan Kuantitas Barang: ";
-    cin.getline(kuantitas, 99);
-    cout << "Masukkan Harga Barang: ";
-    cin.getline(harga, 99);
 
-    //untuk menyimpan data
+    cout << "Masukkan Kuantitas Barang: ";
+    handleNumber(kuantitas); 
+    cout << "Masukkan Harga Barang: ";
+    handleNumber(harga);
+
+    // untuk menyimpan data
     for (int i = 0; i < maxrow; i++) {
         if (arID[i].empty()) { 
             arID[i] = id;
             arBarang[i] = barang;
-            arKuantitas[i] = kuantitas;
-            arHarga[i] = harga;
+            arKuantitas[i] = to_string(kuantitas);
+            arHarga[i] = to_string(harga);
+            cout << "Data berhasil ditambahkan." << endl;
             break;
         }
     }
 }
 
+
+
 //Fungsi untuk menambah kuantitas barang
 void tambahKuantitas(string cari) {
-    //untuk menampung data
+    // untuk menampung data
     int hitung = 0;
 
     for (int i = 0; i < maxrow; i++) {
         if (arID[i] == cari) {
             hitung++;
             cout << "Masukkan Kuantitas Barang Masuk: ";
-            string inputKuantitas;
-            getline(cin, inputKuantitas);
+            int additionalKuantitas;
+            handleNumber(additionalKuantitas); // Use the error-handling function for input
 
-           //untuk memasukkan data
+            // Konversi string ke int, lakukan operasi, lalu konversi kembali ke string
             int existingKuantitas = stoi(arKuantitas[i]); 
-            int additionalKuantitas = stoi(inputKuantitas); 
-
-            //untuk menyimpan data
             int updatedKuantitas = existingKuantitas + additionalKuantitas;
 
-            arKuantitas[i] = to_string(updatedKuantitas);
+            arKuantitas[i] = to_string(updatedKuantitas); // Simpan hasilnya kembali sebagai string
 
             cout << "Kuantitas berhasil ditambahkan!" << endl;
             break;
         }
     }
 
-    //untuk tampilan jika data tidak ada
+    // untuk tampilan jika data tidak ada
     if (hitung == 0) {
         cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
     }
@@ -105,38 +128,42 @@ void tambahKuantitas(string cari) {
     cout << "|_____________________________________________________________________|" << endl;
 }
 
+
 //Fungsi untuk mengurangi kuantitas barang
-void kurangKuantitas(string cari){
-    //untuk menampung data
+void kurangKuantitas(string cari) {
+    // untuk menampung data
     int hitung = 0;
-    int kurangKuantitas = 0;
 
     for (int i = 0; i < maxrow; i++) {
         if (arID[i] == cari) {
             hitung++;
             cout << "Masukkan Kuantitas Barang Keluar: ";
-            cin >> kurangKuantitas;
+            int kurangKuantitas;
+            handleNumber(kurangKuantitas); // Use the error-handling function for input
 
-            int kuantitasBarang = stoi(arKuantitas[i]);
-            //untuk handle jika kurangKuantitas melebihi kuantitasBarang
-            if (kurangKuantitas > kuantitasBarang) {
+            // Konversi string ke int, lakukan operasi, lalu konversi kembali ke string
+            int existingKuantitas = stoi(arKuantitas[i]);
+
+            // Handle jika kuantitas yang dikurangi lebih besar dari yang tersedia
+            if (kurangKuantitas > existingKuantitas) {
                 cout << "Error: Kuantitas keluar melebihi kuantitas tersedia!" << endl;
             } else {
-                kuantitasBarang -= kurangKuantitas;
-                arKuantitas[i] = to_string(kuantitasBarang); 
+                int updatedKuantitas = existingKuantitas - kurangKuantitas;
+                arKuantitas[i] = to_string(updatedKuantitas); // Simpan hasilnya kembali sebagai string
                 cout << "Kuantitas berhasil dikurangi." << endl;
             }
             break;
         }
     }
 
-    //untuk tampilan jika data tidak ada
+    // untuk tampilan jika data tidak ada
     if (hitung == 0) {
         cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
     }
 
     cout << "|_____________________________________________________________________|" << endl;
 }
+
 
 //Fungsi untuk menampilkan data barang
 void listBarang(){
@@ -236,13 +263,13 @@ void editBarang(string search){
             
                 case 2:
                     cout << "Masukkan Kuantitas Barang Baru: ";
-                    cin.getline(kuantitas, 99);
+                    cin >> kuantitas;
                     arKuantitas[i] = kuantitas;
                     break;
 
                 case 3:
                     cout << "Masukkan Harga Barang Baru: ";
-                    cin.getline(harga, 99);
+                    cin >> harga;
                     arHarga[i] = harga;
                     break;
             
@@ -289,9 +316,6 @@ void hapusBarang(string search){
         cout << "|                 TIDAK ADA DATA BARANG                 |" << endl;
     }
 
-    
-    
-    
 }
 
 //Fungsi untuk menyimpan data di file
@@ -467,7 +491,6 @@ int main(){
                 cout << "Masukkan ID Barang: ";
                 getline(cin, v.id);
                 hapusBarang(v.id);
-                cin.ignore();
                 break;
 
             //untuk menyimpan barang dan menyelesaikan program
