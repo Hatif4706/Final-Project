@@ -115,7 +115,7 @@ void tambahKuantitas(string cari) {
             hitung++;
             cout << "Masukkan Kuantitas Barang Masuk: ";
             int additionalKuantitas;
-            handleNumber(additionalKuantitas); // Use the error-handling function for input
+            handleNumber(additionalKuantitas); // error handling
 
             // Konversi string ke int, lakukan operasi, lalu konversi kembali ke string
             int existingKuantitas = stoi(arKuantitas[i]); 
@@ -147,7 +147,7 @@ void kurangKuantitas(string cari) {
             hitung++;
             cout << "Masukkan Kuantitas Barang Keluar: ";
             int kurangKuantitas;
-            handleNumber(kurangKuantitas); // Use the error-handling function for input
+            handleNumber(kurangKuantitas); // error handling
 
             // Konversi string ke int, lakukan operasi, lalu konversi kembali ke string
             int existingKuantitas = stoi(arKuantitas[i]);
@@ -208,16 +208,16 @@ void cariBarang() {
     Variable v;
 
     int opsiCari;
-    int hitung = 0; // Counter for matches
+    int hitung = 0; // Untuk menyimpan jumlah data yang ditemukan
 
    
 
-    cout << "Ingin mencari barang berdasarkan apa?\n";
-    cout << "1. ID\n";
-    cout << "2. Harga\n";
+    cout << "Ingin mencari barang berdasarkan apa?" << endl;
+    cout << "1. ID" << endl;
+    cout << "2. Harga" << endl;
     cout << "Masukkan pilihan: ";
     cin >> opsiCari;
-    cin.ignore(); // Clear newline from input buffer
+    cin.ignore(); 
 
     if (opsiCari == 1) {
         cout << "=============================================\n";
@@ -244,20 +244,20 @@ void cariBarang() {
             }
         }
             } else if (opsiCari == 2) {
-            cout << "=============================================\n";
-            cout << "|             CARI DATA BARANG              |\n";
-            cout << "=============================================\n";
-            cout << "Masukkan Range Harga Barang: ";
-            cin >> v.rangeHarga;
-            cin.ignore();
+                cout << "=============================================\n";
+                cout << "|             CARI DATA BARANG              |\n";
+                cout << "=============================================\n";
+                cout << "Masukkan Range Harga Barang: ";
+                cin >> v.rangeHarga;
+                cin.ignore();
 
-            cout << " ______________________________________________________________________" << endl;
-            cout << "| NO |                            DATA BARANG                         |" << endl;
-            cout << "|    |________________________________________________________________|" << endl;
-            cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
-            cout << "|____|___________|_________________|___________|______________________|" << endl;
+                cout << " ______________________________________________________________________" << endl;
+                cout << "| NO |                            DATA BARANG                         |" << endl;
+                cout << "|    |________________________________________________________________|" << endl;
+                cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
+                cout << "|____|___________|_________________|___________|______________________|" << endl;
 
-            // Search by price range
+            // cari data berdasarkan range harga
             for (int i = 0; i < maxrow; i++) {
                 if (!arHarga[i].empty() && stoi(arHarga[i]) <= v.rangeHarga) {
                     hitung++;
@@ -271,7 +271,7 @@ void cariBarang() {
         }
 
     
-    // Display message if no data is found
+    // jika data tidak ditemukan
     if (hitung == 0) {
         cout << "|                 TIDAK ADA DATA BARANG                               |\n";
     }
