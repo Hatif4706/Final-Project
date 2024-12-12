@@ -21,6 +21,14 @@ string trim(const string& str) {
     return (first == string::npos || last == string::npos) ? "" : str.substr(first, (last - first + 1));
 }
 
+//Fungsi untuk membuat struct(kumpulan variable)
+struct Variable
+{
+    bool exitProgram = false;
+    string id;
+    int pilih, rangeHarga;
+};
+
 //Fungsi handling error
 void handleNumber(int &number) {
     while (true) {
@@ -196,9 +204,27 @@ void listBarang(){
 }
 
 //Fungsi untuk mencari barang
-void cariBarang(string cari){
-    //untuk menampung data
-    int hitung = 0;
+void cariBarang() {
+    Variable v;
+
+    int opsiCari;
+    int hitung = 0; // Counter for matches
+
+   
+
+    cout << "Ingin mencari barang berdasarkan apa?\n";
+    cout << "1. ID\n";
+    cout << "2. Harga\n";
+    cout << "Masukkan pilihan: ";
+    cin >> opsiCari;
+    cin.ignore(); // Clear newline from input buffer
+
+    if (opsiCari == 1) {
+        cout << "=============================================\n";
+        cout << "|             CARI DATA BARANG              |\n";
+        cout << "=============================================\n";
+        cout << "Masukkan ID Barang: ";
+        getline(cin, v.id);
 
         cout << " ______________________________________________________________________" << endl;
         cout << "| NO |                            DATA BARANG                         |" << endl;
@@ -206,26 +232,53 @@ void cariBarang(string cari){
         cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
         cout << "|____|___________|_________________|___________|______________________|" << endl;
 
-    //untuk mencari data
-    for(int i = 0; i < maxrow; i++){
-        if (arID[i] == cari){
-            hitung++;
-            cout << "| " << setw(2) << hitung << " | "   
-                    << setw(9) << arID[i] << " | "    
-                    << setw(15) << arBarang[i] << " | "  
-                    << setw(9) << arKuantitas[i] << " | "  
-                    << setw(20) << arHarga[i] << " |" << endl; 
-            break;
+        // Search by ID
+        for (int i = 0; i < maxrow; i++) {
+            if (arID[i] == v.id) {
+                hitung++;
+                cout << "| " << setw(2) << hitung << " | "   
+                        << setw(9) << arID[i] << " | "    
+                        << setw(15) << arBarang[i] << " | "  
+                        << setw(9) << arKuantitas[i] << " | "  
+                        << setw(20) << arHarga[i] << " |\n"; 
+            }
         }
+            } else if (opsiCari == 2) {
+            cout << "=============================================\n";
+            cout << "|             CARI DATA BARANG              |\n";
+            cout << "=============================================\n";
+            cout << "Masukkan Range Harga Barang: ";
+            cin >> v.rangeHarga;
+            cin.ignore();
+
+            cout << " ______________________________________________________________________" << endl;
+            cout << "| NO |                            DATA BARANG                         |" << endl;
+            cout << "|    |________________________________________________________________|" << endl;
+            cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
+            cout << "|____|___________|_________________|___________|______________________|" << endl;
+
+            // Search by price range
+            for (int i = 0; i < maxrow; i++) {
+                if (!arHarga[i].empty() && stoi(arHarga[i]) <= v.rangeHarga) {
+                    hitung++;
+                    cout << "| " << setw(2) << hitung << " | "
+                        << setw(9) << arID[i] << " | "
+                        << setw(15) << arBarang[i] << " | "
+                        << setw(9) << arKuantitas[i] << " | "
+                        << setw(20) << arHarga[i] << " |\n";
+                }
+            }
+        }
+
+    
+    // Display message if no data is found
+    if (hitung == 0) {
+        cout << "|                 TIDAK ADA DATA BARANG                               |\n";
     }
 
-    //untuk tampilan jika data tidak ada
-        if (hitung == 0) {
-                cout << "|                 TIDAK ADA DATA BARANG                               |" << endl;
-        }
-
-    cout << "|_____________________________________________________________________|" << endl;
+    cout << "|_____________________________________________________________________|\n";
 }
+
 
 //Fungsi untuk mengedit barang
 void editBarang(string search){
@@ -381,13 +434,7 @@ void loadData() {
     }
 }
 
-//Fungsi untuk membuat struct(kumpulan variable)
-struct Variable
-{
-    bool exitProgram = false;
-    string id;
-    int pilih;
-};
+
 
 //Fungsi utama
 int main(){
@@ -474,12 +521,7 @@ int main(){
 
             //untuk mencari barang
             case 6:
-                cout << "=============================================" << endl;
-                cout << "|             CARI DATA BARANG              |" << endl;
-                cout << "=============================================" << endl;
-                cout << "Masukkan ID Barang: ";
-                getline(cin, v.id);
-                cariBarang(v.id);
+                cariBarang();
                 break;
             
             //untuk menghapus barang
