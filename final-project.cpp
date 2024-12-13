@@ -74,11 +74,11 @@ void tambahBarang() {
         cout << "Masukkan ID Barang: ";
         cin.getline(id, 5);
 
-        // Cek apakah ID sudah ada menggunakan fungsi isIDExist
+        // Cek apakah ID sudah ada
         if (cekID(id)) {
             cout << "ID Barang sudah ada! Silakan masukkan ID yang berbeda." << endl;
         } else {
-            idValid = true; // Jika ID belum ada, keluar dari perulangan
+            idValid = true; // Jika ID belum ada
         }
     }
 
@@ -232,7 +232,7 @@ void cariBarang() {
         cout << "|    |     ID    |   NAMA BARANG   | KUANTITAS |        HARGA         |" << endl;
         cout << "|____|___________|_________________|___________|______________________|" << endl;
 
-        // Search by ID
+        // cari berdasarkan ID
         for (int i = 0; i < maxrow; i++) {
             if (arID[i] == v.id) {
                 hitung++;
